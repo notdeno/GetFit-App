@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>GetFit Activity Monitor v1.0</title>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+	<script src="js/notify.min.js"></script>
+    <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBnzzaF6igoCjzZYc7v5QtWCgn_67i8YE8&" type="text/javascript"></script> -->
+
+    <!-- AIzaSyBnzzaF6igoCjzZYc7v5QtWCgn_67i8YE8 -->
+
+    
+    <script src="js/script.js"></script>
+    <script>
+        $(function() {
+            $('.date').each(function() {
+                $(this).datepicker();
+            });
+        })
+    </script>
+
+
+</head>
+
+<body>
+    <div data-role="page" id="home">
+        <header data-role="header" data-theme="b">
+            <h1>GetFit Activity Monitor</h1>
+        </header>
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#home" data-transition="none" data-icon="home">Home</a></li>
+                <li><a href="#add" data-transition="none" data-icon="plus">Add Run</a></li>
+                <li><a href="#chart" data-transition="none" data-icon="calendar" class="chart-page">Chart</a></li>
+                <li><a href="#map" data-transition="none" data-icon="location" class="map-page">Map</a></li>
+            </ul>
+        </div>
+        <div data-role="content">
+            <h3>Welcome to the GetFit Activity Monitor App</h3>
+            <p>Use this app to track your running, jogging or walking activity.</p><br>
+
+            <h4>Your Latest Runs</h4><br>
+
+            <ul id="stats" data-role="listview" data-filter="true" data-filter-placeholder="Filter runs by date or distance" data-inset="true">
+
+            </ul>
+            <br>
+            <button id="clearRuns" data-theme="b" class="btn btn-warning">Clear Total Activity</button>
+        </div>
+
+        <footer data-role="footer" data-theme="c">
+            <h4>GetFit Activity Monitor &copy; 2018</h4>
+        </footer>
+
+    </div>
+
+    <!--ADD PAGE-->
+    <div data-role="page" id="add">
+        <header data-role="header" data-theme="b">
+            <h1>Add Your Activity</h1>
+        </header>
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#home" data-transition="none" data-icon="home">Home</a></li>
+                <li><a href="#add" data-transition="none" data-icon="plus">Add Run</a></li>
+                <li><a href="#chart" data-transition="none" data-icon="calendar" class="chart-page">Chart</a></li>
+                <li><a href="#map" data-transition="none" data-icon="location" class="map-page">Map</a></li>
+            </ul>
+        </div>
+        <div data-role="content">
+            <h3>Add Run</h3>
+            <form id="addForm">
+                <label for="addKilometers">Enter Kilometers: </label>
+                <input type="text" id="addKilometers" name="addKilometers">
+
+                <label for="addDate">Enter Date: </label>
+                <input type="text" data-role="date" class="date" id="addDate" name="addDate" data-inline="true">
+
+                <button id="submitAdd" data-theme="b" class="btn btn-warning">Submit</button>
+            </form>
+
+        </div>
+
+        <footer data-role="footer" data-theme="c">
+            <h4>GetFit Activity Monitor &copy; 2018</h4>
+        </footer>
+
+    </div>
+
+
+    <!--EDIT PAGE-->
+    <div data-role="page" id="edit">
+        <header data-role="header" data-theme="b">
+            <h1>Update Your Activity</h1>
+        </header>
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#home" data-transition="none" data-icon="home">Home</a></li>
+                <li><a href="#add" data-transition="none" data-icon="plus">Add Run</a></li>
+                <li><a href="#chart" data-transition="none" data-icon="calendar">Chart</a></li>
+                <li><a href="#map" data-transition="none" data-icon="location" class="map-page">Map</a></li>
+            </ul>
+        </div>
+        <div data-role="content">
+            <h3>Edit Run</h3>
+            <form id="editForm">
+                <input type="hidden" id="runIndex">
+
+                <label for="editKilometers">Enter Kilometers: </label>
+                <input type="text" id="editKilometers" name="editKilometers">
+
+                <label for="editDate">Enter Date: </label>
+                <input type="text" data-role="date" class="date" id="editDate" name="editDate" data-inline="true">
+
+                <button id="submitEdit" class="ui-btn ui-btn-b ui-corner-all">Update</button>
+            </form>
+        </div>
+
+        <footer data-role="footer" data-theme="c">
+            <h4>GetFit Activity Monitor &copy; 2018</h4>
+        </footer>
+
+    </div>
+
+    <!--CHART PAGE-->
+    <div data-role="page" id="chart">
+        <header data-role="header" data-theme="b">
+            <h1>Track Your Activity</h1>
+        </header>
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#home" data-transition="none" data-icon="home">Home</a></li>
+                <li><a href="#add" data-transition="none" data-icon="plus">Add Run</a></li>
+                <li><a href="#chart" data-transition="none" data-icon="calendar" class="chart-page">Activity Chart</a></li>
+                <li><a href="#map" data-transition="none" data-icon="location" class="map-page">Map</a></li>
+            </ul>
+        </div>
+        <div data-role="content">
+            <div class="chart-wrapper"><canvas id="runChart" width="500" height="300"></canvas></div>
+        </div>
+
+        <footer data-role="footer" data-theme="c">
+            <h4>GetFit Activity Monitor &copy; 2018</h4>
+        </footer>
+
+    </div>
+
+    <!--MAP PAGE-->
+    <div data-role="page" id="map">
+        <header data-role="header" data-theme="b">
+            <h1>Calculate your route</h1>
+        </header>
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#home" data-transition="none" data-icon="home">Home</a></li>
+                <li><a href="#add" data-transition="none" data-icon="plus">Add Run</a></li>
+                <li><a href="#chart" data-transition="none" data-icon="calendar" class="chart-page">Activity Chart</a></li>
+                <li><a href="#map" data-transition="none" data-icon="location" class="map-page">Map</a></li>
+            </ul>
+        </div>
+        <div data-role="content">
+            <iframe src="https://onthegomap.com/#/create" allow="geolocation" width="800" height="550"></iframe>
+
+        </div>
+
+        <footer data-role="footer" data-theme="c">
+            <h4>GetFit Activity Monitor &copy; 2018</h4>
+        </footer>
+
+    </div>
+
+</body>
+
+</html>
